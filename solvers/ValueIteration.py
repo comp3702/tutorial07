@@ -1,6 +1,6 @@
 from typing import Dict, Tuple
 
-from envs.GridWorld import Grid, RIGHT, EPSILON
+from envs.GridWorld import Grid, RIGHT, EPSILON, ACTION_NAMES
 from solvers.utils import dict_argmax
 
 
@@ -35,10 +35,15 @@ class ValueIteration:
 
         return converged
 
+    def check_convergence(self, new_state_values: Dict[Tuple[int, int], float]) -> bool:
+        differences = [abs(self.state_values[state] - new_state_values[state]) for state in self.env.states]
+        return max(differences) < self.epsilon
+
     def print_values(self):
         for state, value in self.state_values.items():
             print(state, value)
 
-    def check_convergence(self, new_state_values: Dict[Tuple[int, int], float]) -> bool:
-        differences = [abs(self.state_values[state] - new_state_values[state]) for state in self.env.states]
-        return max(differences) < self.epsilon
+    def print_values_and_policy(self):
+        for state, value in self.state_values.items():
+            print(state, ACTION_NAMES[self.policy[state]], value)
+

@@ -6,6 +6,8 @@ DOWN = 1
 LEFT = 2
 RIGHT = 3
 
+ACTION_NAMES = {UP: 'U', DOWN: 'D', LEFT: 'L', RIGHT: 'R'}
+
 EXIT_STATE = (-1, -1)
 
 EPSILON = 0.0001

@@ -1,3 +1,4 @@
+import argparse
 import time
 import sys
 
@@ -58,14 +59,20 @@ def run_policy_iteration_lin_alg():
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-s', '--solver', required=True, help='Solver to be used - one of value, policy, or lin_alg')
+    args = parser.parse_args()
+
     start = time.time()
 
-    if sys.argv[1] == 'policy':
+    if args.solver == 'policy':
         iter_count = run_policy_iteration()
-    elif sys.argv[1] == 'lin_alg':
+    elif args.solver == 'lin_alg':
         iter_count = run_policy_iteration_lin_alg()
-    else:
+    elif args.solver == 'value':
         iter_count = run_value_iteration()
+    else:
+        raise Exception(f'Invalid policy: {args.solver}')
 
     end = time.time()
     print("Time to complete", iter_count, " iterations")

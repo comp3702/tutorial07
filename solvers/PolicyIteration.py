@@ -2,14 +2,14 @@ from envs.GridWorld import RIGHT
 
 
 class PolicyIteration:
-    def __init__(self, grid):
-        self.grid = grid
-        self.values = {state: 0 for state in self.grid.states}
-        self.policy = {pi: RIGHT for pi in self.grid.states}
-        self.r = [0 for s in self.grid.states]
-        for idx, state in enumerate(self.grid.states):
-            if state in self.grid.rewards.keys():
-                self.r[idx] = self.grid.rewards[state]
+    def __init__(self, env):
+        self.env = env
+        self.values = {state: 0 for state in self.env.states}
+        self.policy = {pi: RIGHT for pi in self.env.states}
+        self.r = [0 for s in self.env.states]
+        for idx, state in enumerate(self.env.states):
+            if state in self.env.rewards.keys():
+                self.r[idx] = self.env.rewards[state]
         print('r is ', self.r)
 
     def next_iteration(self):

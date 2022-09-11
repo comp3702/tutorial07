@@ -43,3 +43,8 @@ class TestGridWorld(unittest.TestCase):
     def test_move_to_obstacle(self):
         self.assertEqual((0, 1), self.env.attempt_move((0, 1), RIGHT))
 
+    def test_move_from_reward_state(self):
+        self.assertEqual(EXIT_STATE, self.env.attempt_move((3, 2), RIGHT))
+
+    def test_move_from_exit_state(self):
+        self.assertEqual(EXIT_STATE, self.env.attempt_move(EXIT_STATE, RIGHT))

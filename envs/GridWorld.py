@@ -1,27 +1,41 @@
 # Directions
+from typing import Dict, Tuple, Optional
+
 UP = 0
 DOWN = 1
 LEFT = 2
 RIGHT = 3
 
-OBSTACLES = [(1, 1)]
 EXIT_STATE = (-1, -1)
 
 EPSILON = 0.0001
 
 class Grid:
-    def __init__(self):
-        self.x_size = 4
-        self.y_size = 3
-        self.p = 0.8
-        self.actions = [UP, DOWN, LEFT, RIGHT]
-        self.rewards = {(3, 1): -100, (3, 2): 1}
-        self.discount = 0.9
+    def __init__(self, x_size: int = 4, y_size: int = 3, p: float = 0.8, gamma: float = 0.9,
+                 rewards: Optional[Dict[Tuple[int, int], int]] = None,
+                 obstacles: Tuple[Tuple[int, int]] = ((1, 1),)):
+        self.last_col = x_size - 1
+        self.last_row = y_size - 1
 
-        self.states = list((x, y) for x in range(self.x_size) for y in range(self.y_size))
-        self.states.append(EXIT_STATE)
-        for obstacle in OBSTACLES:
-            self.states.remove(obstacle)
+        self.p = p
+        self.alt_p = (1 - p) / 2
+
+        self.actions = [UP, DOWN, LEFT, RIGHT]
+
+        if rewards is None:
+            self.rewards = {(3, 1): -100, (3, 2): 1}
+        else:
+            self.rewards = rewards
+
+        self.discount = gamma
+
+        states = list( (x, y) for y in range(y_size) for x in range(x_size) )
+        states.append(EXIT_STATE)
+        for obstacle in obstacles:
+            states.remove(obstacle)
+        self.states = tuple(states)
+
+        self.obstacles = obstacles
 
     def attempt_move(self, s, a):
         """ Attempts to move the agent from state s via action a.

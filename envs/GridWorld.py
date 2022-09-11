@@ -37,7 +37,7 @@ class Grid:
 
         self.obstacles = obstacles
 
-    def attempt_move(self, s, a):
+    def attempt_move(self, s: Tuple[int, int], a: int) -> Tuple[int, int]:
         """ Attempts to move the agent from state s via action a.
 
             Parameters:
@@ -53,20 +53,21 @@ class Grid:
         if s == EXIT_STATE:
             return s
 
-        # Default: no movement
-        result = s
-
         # Check borders
-        """
-        TODO: Write code here to check if applying an action 
-        keeps the agent with the boundary
-        """
+        if a == RIGHT and x < self.last_col:
+            x += 1
+        elif a == LEFT and x > 0:
+            x -= 1
+        elif a == DOWN and y < self.last_row:
+            y += 1
+        elif a == UP and y > 0:
+            y -= 1
+
+        result = (x, y)
 
         # Check obstacle cells
-        """
-        TODO: Write code here to check if applying an action 
-        moves the agent into an obstacle cell
-        """
+        if result in self.obstacles:
+            result = s
 
         return result
 

@@ -29,7 +29,7 @@ class TestValueIteration(unittest.TestCase):
 
         vi.next_iteration()
         self.assertFalse(vi.next_iteration())
-        self.assertLess(abs(0.72 - vi.state_values[(2, 2)]), 1e-6)
+        self.assertAlmostEqual(0.72, vi.state_values[(2, 2)])
 
         self.assertEqual(1, vi.state_values[(3, 2)])
         self.assertEqual(-100, vi.state_values[(3, 1)])
@@ -40,9 +40,9 @@ class TestValueIteration(unittest.TestCase):
         vi.next_iteration()
         vi.next_iteration()
         self.assertFalse(vi.next_iteration())
-        self.assertLess(abs(0.7848 - vi.state_values[(2, 2)]), 1e-6)
-        self.assertLess(abs(0.0648 - vi.state_values[(2, 1)]), 1e-6)
-        self.assertLess(abs(0.5184 - vi.state_values[(1, 2)]), 1e-6)
+        self.assertAlmostEqual(0.7848, vi.state_values[(2, 2)])
+        self.assertAlmostEqual(0.0648, vi.state_values[(2, 1)])
+        self.assertAlmostEqual(0.5184, vi.state_values[(1, 2)])
 
         self.assertEqual(1, vi.state_values[(3, 2)])
         self.assertEqual(-100, vi.state_values[(3, 1)])

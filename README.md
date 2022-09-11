@@ -2,6 +2,9 @@
 
 Loosely based on the official solutions but adds tests and refactors each algo into a separate file.
 
+The PI using linear algebra is done by subclassing the regular PolicyIteration class, 
+rather than if conditions throughout the code. I will try to make it less cryptic if I have time later this week.
+
 ### Dependencies
 Python 3.10 and only dependency is `numpy`
 

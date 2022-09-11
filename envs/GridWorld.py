@@ -27,7 +27,7 @@ class Grid:
         else:
             self.rewards = rewards
 
-        self.discount = gamma
+        self.gamma = gamma
 
         states = list( (x, y) for y in range(y_size) for x in range(x_size) )
         states.append(EXIT_STATE)
@@ -50,6 +50,9 @@ class Grid:
         x, y = s
 
         # Check absorbing state
+        if s in self.rewards:
+            return EXIT_STATE
+
         if s == EXIT_STATE:
             return s
 

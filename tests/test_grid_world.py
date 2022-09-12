@@ -28,17 +28,17 @@ class TestGridWorld(unittest.TestCase):
     def test_move_left_to_wall(self):
         self.assertEqual((0, 0), self.env.attempt_move((0, 0), LEFT))
 
-    def test_move_down(self):
-        self.assertEqual((0, 1), self.env.attempt_move((0, 0), DOWN))
-
-    def test_move_down_to_wall(self):
-        self.assertEqual((0, 2), self.env.attempt_move((0, 2), DOWN))
-
     def test_move_up(self):
-        self.assertEqual((0, 1), self.env.attempt_move((0, 2), UP))
+        self.assertEqual((0, 1), self.env.attempt_move((0, 0), UP))
 
     def test_move_up_to_wall(self):
-        self.assertEqual((0, 0), self.env.attempt_move((0, 0), UP))
+        self.assertEqual((0, 2), self.env.attempt_move((0, 2), UP))
+
+    def test_move_down(self):
+        self.assertEqual((0, 1), self.env.attempt_move((0, 2), DOWN))
+
+    def test_move_down_to_wall(self):
+        self.assertEqual((0, 0), self.env.attempt_move((0, 0), DOWN))
 
     def test_move_to_obstacle(self):
         self.assertEqual((0, 1), self.env.attempt_move((0, 1), RIGHT))

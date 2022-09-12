@@ -13,7 +13,8 @@ EXIT_STATE = (-1, -1)
 EPSILON = 0.0001
 
 class Grid:
-    def __init__(self, x_size: int = 4, y_size: int = 3, p: float = 0.8, gamma: float = 0.9,
+    def __init__(self, x_size: int = 4, y_size: int = 3, p: float = 0.8,
+                 gamma: float = 0.9,
                  rewards: Optional[Dict[Tuple[int, int], int]] = None,
                  obstacles: Tuple[Tuple[int, int]] = ((1, 1),)):
         self.last_col = x_size - 1
@@ -49,7 +50,7 @@ class Grid:
                    in this method).
             Returns: the state resulting from performing action a in state s.
         """
-        x, y = s
+        col, row = s
 
         # Check absorbing state
         if s in self.rewards:
@@ -59,16 +60,17 @@ class Grid:
             return s
 
         # Check borders
-        if a == RIGHT and x < self.last_col:
-            x += 1
-        elif a == LEFT and x > 0:
-            x -= 1
-        elif a == DOWN and y < self.last_row:
-            y += 1
-        elif a == UP and y > 0:
-            y -= 1
+        if a == RIGHT and col < self.last_col:
+            col += 1
+        elif a == LEFT and col > 0:
+            col -= 1
+        # indexed at bottom left!!!!! not top
+        elif a == UP and row < self.last_row:
+            row += 1
+        elif a == DOWN and row > 0:
+            row -= 1
 
-        result = (x, y)
+        result = (col, row)
 
         # Check obstacle cells
         if result in self.obstacles:

@@ -8,36 +8,30 @@ class PolicyIterationLinAlg(PolicyIteration):
         
         # t model (lin alg)
         t_model = np.zeros([len(self.env.states), len(self.env.actions), len(self.env.states)])
-        for i, s in enumerate(self.env.states):
-            for j, a in enumerate(self.env.actions):
-                if s in self.env.rewards.keys():
-                    for k in range(len(self.env.states)):
-                        if self.env.states[k] == (-1, -1):
-                            t_model[i][j][k] = 1.0
-                        else:
-                            t_model[i][j][k] = 0.0
-                elif s == EXIT_STATE:
-                    t_model[i][j][self.env.states.index(EXIT_STATE)] = 1.0
+        for state_index, state in enumerate(self.env.states):
+            for action_index, action in enumerate(self.env.actions):
+                # reward state always leads to exit
+                if state in self.env.rewards.keys():
+                    exit_state_index = self.env.states.index(EXIT_STATE)
+                    t_model[state_index][action_index][exit_state_index] = 1.0
+                elif state == EXIT_STATE:
+                    t_model[state_index][action_index][self.env.states.index(EXIT_STATE)] = 1.0
                 else:
-                    for stoch_action, p in self.env.stoch_action(a).items():
+                    for stoch_action, probability in self.env.stoch_action(action).items():
                         # Apply action
-                        s_next = self.env.attempt_move(s, stoch_action)
-                        k = self.env.states.index(s_next)
-                        t_model[i][j][k] += p
+                        next_state = self.env.attempt_move(state, stoch_action)
+                        next_state_index = self.env.states.index(next_state)
+                        t_model[state_index][action_index][next_state_index] += probability
         self.t_model = t_model
 
         # r model (lin alg)
         r_model = np.zeros([len(self.env.states)])
-        for i, s in enumerate(self.env.states):
-            r_model[i] = self.env.get_reward(s)
+        for state_index, state in enumerate(self.env.states):
+            r_model[state_index] = self.env.get_reward(state)
         self.r_model = r_model
 
         # lin alg policy
-        la_policy = np.zeros([len(self.env.states)], dtype=np.int64)
-        for i, s in enumerate(self.env.states):
-            la_policy[i] = RIGHT
-            # la_policy[i] = random.randint(0, len(self.env.actions) - 1)
-        self.la_policy = la_policy
+        self.la_policy = np.zeros([len(self.env.states)], dtype=np.int64) + RIGHT
 
     def policy_evaluation(self):
         # use linear algebra for policy evaluation

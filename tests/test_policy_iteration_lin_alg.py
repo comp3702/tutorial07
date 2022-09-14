@@ -2,14 +2,15 @@ import unittest
 
 from envs.GridWorld import Grid
 from solvers.PolicyIteration import PolicyIteration
+from solvers.PolicyIterationLinAlg import PolicyIterationLinAlg
 
 
-class TestPolicyIteration(unittest.TestCase):
+class TestPolicyIterationLinAlg(unittest.TestCase):
     def setUp(self) -> None:
         self.env = Grid()
 
     def test_policy_evaluation(self):
-        pi = PolicyIteration(self.env)
+        pi = PolicyIterationLinAlg(self.env)
 
         pi.policy_evaluation()
 
@@ -20,7 +21,7 @@ class TestPolicyIteration(unittest.TestCase):
         self.assertAlmostEqual(-76.667, pi.values[(2, 1)], 3)
 
     def test_converge_after_5_iterations(self):
-        pi = PolicyIteration(self.env)
+        pi = PolicyIterationLinAlg(self.env)
         converged = False
 
         for _ in range(5):

@@ -18,4 +18,4 @@ Use the `main.py` to just see the results with `-s solver` argument:
     python main.py -s lin_alg   // for policy iteration using linear algebra
 
 ### More details
-[Lesson by Andrew Ng](https://www.youtube.com/watch?v=d5gaWTo6kDM&t=3198s)
+[Lecture by Andrew Ng](https://www.youtube.com/watch?v=d5gaWTo6kDM&t=3198s)

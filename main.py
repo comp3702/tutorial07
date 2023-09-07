@@ -94,22 +94,25 @@ if __name__ == "__main__":
 
     env = None
     if args.env == 'GridWithKey':
+        print('Starting env GridWithKey...')
         if args.difficulty == 2:
             env = GridWithKey(x_size=10, y_size=6, keys=((2, 2), (9, 5)))
         elif args.difficulty == 1:
             env = GridWithKey(x_size=10, y_size=6)
         else:
             env = GridWithKey()
-    if args.env == 'GridWithKeyAndCost':
+    elif args.env == 'GridWithKeyAndCost':
+        print('Starting env GridWithKeyAndCost...')
         if args.difficulty == 2:
-            env = GridWithKeyAndCosts(x_size=10, y_size=6, keys=((2, 2), (9, 5)))
+            env = GridWithKeyAndCosts(x_size=10, y_size=6, rewards={(8, 4): -1, (9, 5): 1}, keys=((2, 2), (9, 5)))
         elif args.difficulty == 1:
             env = GridWithKeyAndCosts(x_size=10, y_size=6)
         else:
             env = GridWithKeyAndCosts()
     else:
+        print('Starting env Grid...')
         if args.difficulty == 2:
-            env = Grid(x_size=10, y_size=6, rewards={(8, 4): -1, (9, 5): 1}, obstacles=((1, 1), (6, 4), (6, 5)))
+            env = Grid(x_size=10, y_size=6, obstacles=((1, 1), (6, 4), (6, 5)))
         elif args.difficulty == 1:
             env = Grid(x_size=10, y_size=6)
         else:

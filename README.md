@@ -36,5 +36,10 @@ To solve it, use random initializer for the state values:
 
     python main.py -s value -e GridWithKey -d 2 -i random
 
+### Question 1
+[q6-01.py](q6-01.py) has a solution to question 1 (markov chains).
+
+    python q6-01.py
+
 ### More details
 [Lecture by Andrew Ng](https://www.youtube.com/watch?v=d5gaWTo6kDM&t=3198s)

@@ -27,7 +27,7 @@ class ValueIteration:
                 action_value = 0
                 for stoch_action, probability in self.env.stoch_action(action).items():
                     next_state = self.env.attempt_move(state, stoch_action)
-                    action_value += probability * (self.env.get_reward(state) + self.env.gamma * self.state_values[next_state])
+                    action_value += probability * (self.env.get_reward(state, stoch_action) + self.env.gamma * self.state_values[next_state])
 
                 action_values[action] = action_value
 

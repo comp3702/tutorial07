@@ -10,7 +10,7 @@ ACTION_NAMES = {UP: '↑', DOWN: '↓', LEFT: '←', RIGHT: '→'}
 
 EXIT_STATE = (-1, -1)
 
-EPSILON = 0.00001
+EPSILON = 0.0001
 
 class Grid:
     def __init__(self, x_size: int = 4, y_size: int = 3, p: float = 0.8,

@@ -26,6 +26,13 @@ There are more commandline options:
     -i zero|random - initializer for the state values (unified random or zeros) 
     -d 0|1|2 - difficulty of the environment
 
+To run the basic environment without keys:
+
+    python main.py -s value
+
+And you should see this:
+![Without Key](resources/without_key.gif)
+
 To run the most difficult environment with keys use:
 
     python main.py -s value -e GridWithKey -d 2
@@ -35,6 +42,9 @@ This should fail because the solver will fail to reach states with reward.
 To solve it, use random initializer for the state values:
 
     python main.py -s value -e GridWithKey -d 2 -i random
+
+Which should result in this (note that the starting state values are random and not 0):
+![With key](resources/with_key.gif)
 
 ### Question 1
 [q6-01.py](q6-01.py) has a solution to question 1 (markov chains).

@@ -17,6 +17,7 @@ class ValueIteration:
         self.epsilon = epsilon
 
     def next_iteration(self) -> bool:
+        self.env.reset()
         new_state_values = dict()
 
         self.policy = dict()

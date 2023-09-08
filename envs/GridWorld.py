@@ -40,6 +40,9 @@ class Grid:
 
         self.obstacles = obstacles
 
+    def reset(self):
+        pass
+
     def attempt_move(self, s: Tuple[int, int], a: int) -> Tuple[int, int]:
         """ Attempts to move the agent from state s via action a.
 
@@ -129,6 +132,10 @@ class GridWithKey(Grid):
                  keys: Tuple[Tuple[int, int]] = ((2, 2),)):
         super().__init__(x_size, y_size, p, gamma, rewards, obstacles)
         self.keys = set(keys)
+        self.keys_for_reset = self.keys.copy()
+
+    def reset(self):
+        self.keys = self.keys_for_reset.copy()
 
     def attempt_move(self, s: Tuple[int, int], a: int) -> Tuple[int, int]:
         next_state = super().attempt_move(s, a)
@@ -152,7 +159,7 @@ class GridWithKeyAndCosts(GridWithKey):
                  rewards: Optional[Dict[Tuple[int, int], int]] = None,
                  obstacles: Tuple[Tuple[int, int]] = ((1, 1),),
                  keys: Tuple[Tuple[int, int]] = ((2, 2),),
-                 costs: Tuple = (0.1, 0.2, 0.3, 0.4)):
+                 costs: Tuple = (-0.1, -0.2, -0.3, -0.4)):
         super().__init__(x_size, y_size, p, gamma, rewards, obstacles, keys)
         self.costs = costs
 
@@ -161,3 +168,4 @@ class GridWithKeyAndCosts(GridWithKey):
             return self.costs[action]
 
         return self.rewards.get(s, 0)
+

@@ -24,7 +24,7 @@ def run_value_iteration(env: Grid, value_initializer: str = 'zero'):
 
     data = vi.get_values_and_policy()
     heatmap(plt, data)
-    plt.pause(20)
+    plt.pause(5)
 
     for i in range(MAX_ITER):
         converged = vi.next_iteration()

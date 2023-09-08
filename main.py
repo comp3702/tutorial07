@@ -74,7 +74,7 @@ def heatmap(plt, data):
     data = pd.DataFrame(data, columns=['X', 'Y', 'A', 'R'])
     data['RA'] = data['R'].round(2).apply(str) + data['A']
     map_data = data[['X', 'Y', 'R']].pivot(index='Y', columns='X')
-    map_data.sort_index(level=0, ascending=False, inplace=True)
+    # map_data.sort_index(level=0, ascending=False, inplace=True)
     map = sns.heatmap(map_data, vmin=-1, vmax=1, annot=data[['X', 'Y', 'RA']].pivot(index='Y', columns='X'), fmt='')
 
     # plt.show()

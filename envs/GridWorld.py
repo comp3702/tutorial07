@@ -10,7 +10,7 @@ ACTION_NAMES = {UP: '↑', DOWN: '↓', LEFT: '←', RIGHT: '→'}
 
 EXIT_STATE = (-1, -1)
 
-EPSILON = 0.0001
+EPSILON = 0.00001
 
 class Grid:
     def __init__(self, x_size: int = 4, y_size: int = 3, p: float = 0.8,
@@ -62,9 +62,9 @@ class Grid:
         elif a == LEFT and col > 0:
             col -= 1
         # indexed at top left!!!!! not top
-        elif a == UP and row < self.last_row:
+        elif a == DOWN and row < self.last_row:
             row += 1
-        elif a == DOWN and row > 0:
+        elif a == UP and row > 0:
             row -= 1
 
         result = (col, row)

@@ -1,13 +1,17 @@
 from typing import Dict, Tuple
 
-from envs.GridWorld import Grid, RIGHT, EPSILON, ACTION_NAMES
+from envs.GridWorld import Grid, RIGHT, EPSILON, ACTION_NAMES, EXIT_STATE
 from solvers.utils import dict_argmax
 
+import random
 
 class ValueIteration:
-    def __init__(self, env: Grid, epsilon: float = EPSILON):
+    def __init__(self, env: Grid, epsilon: float = EPSILON, value_initializer: str = 'zero'):
         self.env = env
-        self.state_values = {state: 0 for state in self.env.states}
+        if value_initializer == 'random':
+            self.state_values = {state: random.uniform(-1, 1) for state in self.env.states}
+        else:
+            self.state_values = {state: 0 for state in self.env.states}
         self.policy = {state: RIGHT for state in self.env.states}
 
         self.epsilon = epsilon
@@ -46,4 +50,13 @@ class ValueIteration:
     def print_values_and_policy(self):
         for state, value in self.state_values.items():
             print(state, ACTION_NAMES[self.policy[state]], value)
+
+    def get_values_and_policy(self):
+        data = []
+        for state, value in self.state_values.items():
+            if state == EXIT_STATE:
+                continue
+            data.append( (state[0], state[1], ACTION_NAMES[self.policy[state]], value) )
+
+        return data
 

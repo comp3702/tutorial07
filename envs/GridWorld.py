@@ -1,12 +1,12 @@
 # Directions
-from typing import Dict, Tuple, Optional
+from typing import Dict, Tuple, Optional, Set
 
 UP = 0
 DOWN = 1
 LEFT = 2
 RIGHT = 3
 
-ACTION_NAMES = {UP: 'U', DOWN: 'D', LEFT: 'L', RIGHT: 'R'}
+ACTION_NAMES = {UP: '↑', DOWN: '↓', LEFT: '←', RIGHT: '→'}
 
 EXIT_STATE = (-1, -1)
 
@@ -26,7 +26,7 @@ class Grid:
         self.actions = [UP, DOWN, LEFT, RIGHT]
 
         if rewards is None:
-            self.rewards = {(3, 1): -100, (3, 2): 1}
+            self.rewards = {(3, 1): -1, (3, 2): 1}
         else:
             self.rewards = rewards
 
@@ -53,18 +53,15 @@ class Grid:
         col, row = s
 
         # Check absorbing state
-        if s in self.rewards:
+        if self.check_absorbing_state(s):
             return EXIT_STATE
-
-        if s == EXIT_STATE:
-            return s
 
         # Check borders
         if a == RIGHT and col < self.last_col:
             col += 1
         elif a == LEFT and col > 0:
             col -= 1
-        # indexed at bottom left!!!!! not top
+        # indexed at top left!!!!! not top
         elif a == UP and row < self.last_row:
             row += 1
         elif a == DOWN and row > 0:
@@ -114,9 +111,37 @@ class Grid:
             probability that that state will be reached by doing a in s.
         """
 
+    def check_absorbing_state(self, state: Tuple[int, int]) -> bool:
+        return state in self.rewards or state == EXIT_STATE
+
     def get_reward(self, s):
         """ Returns the reward for being in state s. """
         if s == EXIT_STATE:
+            return 0
+
+        return self.rewards.get(s, 0)
+
+class GridWithKey(Grid):
+    def __init__(self, x_size: int = 4, y_size: int = 3, p: float = 0.8,
+                 gamma: float = 0.9,
+                 rewards: Optional[Dict[Tuple[int, int], int]] = None,
+                 obstacles: Tuple[Tuple[int, int]] = ((1, 1),),
+                 keys: Tuple[Tuple[int, int]] = ((2, 2),)):
+        super().__init__(x_size, y_size, p, gamma, rewards, obstacles)
+        self.keys = set(keys)
+
+    def attempt_move(self, s: Tuple[int, int], a: int) -> Tuple[int, int]:
+        next_state = super().attempt_move(s, a)
+        if next_state in self.keys:
+            self.keys.remove(next_state)
+
+        return next_state
+
+    def check_absorbing_state(self, state: Tuple[int, int]) -> bool:
+        return not self.keys and state in self.rewards or state == EXIT_STATE
+
+    def get_reward(self, s):
+        if self.keys or s == EXIT_STATE:
             return 0
 
         return self.rewards.get(s, 0)

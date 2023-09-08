@@ -26,7 +26,7 @@ class Grid:
         self.actions = [UP, DOWN, LEFT, RIGHT]
 
         if rewards is None:
-            self.rewards = {(3, 1): -1, (3, 2): 1}
+            self.rewards = {(3, 1): -100, (3, 2): 1}
         else:
             self.rewards = rewards
 

@@ -22,7 +22,7 @@ Use the `main.py` to just see the results with `-s solver` argument:
 
 There are more commandline options:
 
-    -e Grid|GridWithKey - the environment to be used
+    -e Grid|GridWithKey|GridWithKeyAndCosts - the environment to be used
     -i zero|random - initializer for the state values (unified random or zeros) 
     -d 0|1|2 - difficulty of the environment
 

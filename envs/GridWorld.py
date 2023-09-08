@@ -114,7 +114,7 @@ class Grid:
     def check_absorbing_state(self, state: Tuple[int, int]) -> bool:
         return state in self.rewards or state == EXIT_STATE
 
-    def get_reward(self, s):
+    def get_reward(self, s, action=None):
         """ Returns the reward for being in state s. """
         if s == EXIT_STATE:
             return 0
@@ -140,8 +140,24 @@ class GridWithKey(Grid):
     def check_absorbing_state(self, state: Tuple[int, int]) -> bool:
         return not self.keys and state in self.rewards or state == EXIT_STATE
 
-    def get_reward(self, s):
+    def get_reward(self, s, action=None):
         if self.keys or s == EXIT_STATE:
             return 0
+
+        return self.rewards.get(s, 0)
+
+class GridWithKeyAndCosts(GridWithKey):
+    def __init__(self, x_size: int = 4, y_size: int = 3, p: float = 0.8,
+                 gamma: float = 0.9,
+                 rewards: Optional[Dict[Tuple[int, int], int]] = None,
+                 obstacles: Tuple[Tuple[int, int]] = ((1, 1),),
+                 keys: Tuple[Tuple[int, int]] = ((2, 2),),
+                 costs: Tuple = (0.1, 0.2, 0.3, 0.4)):
+        super().__init__(x_size, y_size, p, gamma, rewards, obstacles, keys)
+        self.costs = costs
+
+    def get_reward(self, s, action=None):
+        if self.keys or s == EXIT_STATE:
+            return self.costs[action]
 
         return self.rewards.get(s, 0)

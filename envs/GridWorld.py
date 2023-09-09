@@ -6,7 +6,7 @@ DOWN = 1
 LEFT = 2
 RIGHT = 3
 
-ACTION_NAMES = {UP: 'U', DOWN: 'D', LEFT: 'L', RIGHT: 'R'}
+ACTION_NAMES = {UP: '↑', DOWN: '↓', LEFT: '←', RIGHT: '→'}
 
 EXIT_STATE = (-1, -1)
 

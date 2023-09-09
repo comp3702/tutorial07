@@ -22,7 +22,6 @@ Use the `main.py` to just see the results with `-s solver` argument:
 
 There are more commandline options:
 
-    -e Grid|GridWithKey|GridWithKeyAndCosts - the environment to be used
     -i zero|random - initializer for the state values (unified random or zeros) 
     -d 0|1|2 - difficulty of the environment
 
@@ -33,19 +32,27 @@ To run the basic environment without keys:
 And you should see this:
 ![Without Key](resources/without_key.gif)
 
-To run the most difficult environment with keys use:
+To run the basic environment with key (same as in the tutorial sheet) use:
 
-    python main.py -s value -e GridWithKey -d 2
+    python main.py -s value -d 1
 
-This should fail because the solver will fail to reach states with reward.
-
-To solve it, use random initializer for the state values:
-
-    python main.py -s value -e GridWithKey -d 2 -i random
-
-Which should result in this (note that the starting state values are random and not 0):
+You should see this:
 ![With key](resources/with_key.gif)
 
+The top grid is with key and the bottom grid has the states after the key has been collected.
+You can see how in the top grid, the actions (indicated by the arrows) are trying to reach cell `2, 2` to reach the key
+and in the bottom grid they are trying to reach the goal cell.
+
+When the key cell in the top grid has been reached, the next state becomes the cell with the same coordinates, but in the bottom grid (i.e. the agent jumps from 2, 2 in the top to the 2, 2 in the bottom).
+
+You can also try a more complicated environment:
+
+    python main.py -s value -d 2
+
+Which should result in this:
+![With Key Large](resources/with_key_large.gif)
+
+The key has been relocated to the bottom right corner of the top grid. The actions within the top grid continue to aim for the key, and they still aim for the `Goal` cell in the bottom grid. However, due to the increased number of steps required to attain the goal from the topmost positions, the impact of discounting becomes more evident. In both they also flow around the `Hazard` cells. This state values in significantly smaller for the top cells.
 ### Question 1
 [q6-01.py](q6-01.py) has a solution to question 1 (markov chains).
 

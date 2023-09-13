@@ -22,7 +22,6 @@ def run_value_iteration(env: GridWorldWithKeys, value_initializer: str = 'zero')
     plt.ion()
     plt.show()
 
-
     data = vi.get_values_and_policy()
     heatmap(plt, data)
     plt.pause(5)
@@ -41,20 +40,31 @@ def run_value_iteration(env: GridWorldWithKeys, value_initializer: str = 'zero')
             return i + 1
 
 
-def run_policy_iteration():
-    env = Grid()
-    pi = PolicyIteration(env)
+def run_policy_iteration(env: GridWorldWithKeys, policy_initializer: str = 'zero'):
+    pi = PolicyIteration(env, policy_initializer=policy_initializer)
 
     print("Initial policy and values:")
     pi.print_values_and_policy()
+
     print()
+
+    plt.ion()
+    plt.show()
+
+    data = pi.get_values_and_policy()
+    heatmap(plt, data)
+    plt.pause(5)
+
 
     for i in range(MAX_ITER):
         converged = pi.next_iteration()
         print("Policy and values after iteration", i + 1)
-        pi.print_values_and_policy()
-        print()
+        # pi.print_values_and_policy()
+        data = pi.get_values_and_policy()
+        heatmap(plt, data)
         if converged:
+            plt.ioff()
+            plt.show()
             return i + 1
 
 def run_policy_iteration_lin_alg():
@@ -92,7 +102,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-s', '--solver', required=True, help='Solver to be used - one of value, policy, or lin_alg')
     # parser.add_argument('-e', '--env', default='Grid', help='Environment to be used - one of Grid, GridWithKey or GridWithKeyAndCosts')
-    parser.add_argument('-i', '--value_initializer', default='zero', help='Initial value strategy - one of zero, or random')
+    parser.add_argument('-i', '--initializer', default='zero', help='Initial value/policy strategy - one of zero, or random - for value iteration, this initializes state values and for policy iteration the default policy')
     parser.add_argument('-d', '--difficulty', type=int, default=0, help='Difficulty of the environment - number between 0 and 2')
     args = parser.parse_args()
 
@@ -111,11 +121,11 @@ if __name__ == "__main__":
         env = GridWorldWithKeys(keys=())
 
     if args.solver == 'policy':
-        iter_count = run_policy_iteration()
+        iter_count = run_policy_iteration(env, policy_initializer=args.initializer)
     elif args.solver == 'lin_alg':
         iter_count = run_policy_iteration_lin_alg()
     elif args.solver == 'value':
-        iter_count = run_value_iteration(env, value_initializer=args.value_initializer)
+        iter_count = run_value_iteration(env, value_initializer=args.initializer)
     else:
         raise Exception(f'Invalid policy: {args.solver}')
 

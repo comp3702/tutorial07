@@ -2,11 +2,11 @@ from typing import Dict, Tuple
 
 from envs.GridWorld import Grid, RIGHT, EPSILON, ACTION_NAMES, EXIT_STATE
 from envs.GridWorldWithKeys import GridWorldWithKeys
-from solvers.utils import dict_argmax
+from solvers.utils import dict_argmax, VisualizerMixin
 
 import random
 
-class ValueIteration:
+class ValueIteration(VisualizerMixin):
     def __init__(self, env: GridWorldWithKeys, epsilon: float = EPSILON, gamma: float = 0.9, value_initializer: str = 'zero'):
         self.env = env
         if value_initializer == 'random':
@@ -45,28 +45,7 @@ class ValueIteration:
         differences = [abs(self.state_values[state] - new_state_values[state]) for state in self.env.states]
         return max(differences) < self.epsilon
 
-    def print_values(self):
-        for state, value in self.state_values.items():
-            print(state, value)
 
-    def print_values_and_policy(self):
-        for state, value in self.state_values.items():
-            print(state, ACTION_NAMES[self.policy[state]], value)
 
-    def get_values_and_policy(self):
-        data = []
-        for state, value in self.state_values.items():
-            if state == EXIT_STATE:
-                continue
-            desc = ''
-            if state.position() in state.key_state:
-                desc = '\nKey'
-            if state.position() in self.env.hazards:
-                desc = '\nHaz'
-            if not state.key_state and state.position() in self.env.goal:
-                desc = '\nGoal'
 
-            data.append( (state.x, state.y, ACTION_NAMES[self.policy[state]], value, desc, state.key_state) )
-
-        return data
 

@@ -1,7 +1,6 @@
 from typing import Dict, Tuple
 
-from envs.GridWorld import RIGHT, EPSILON
-from envs.GridWorldWithKeys import GridWorldWithKeys
+from envs.GridWorldWithKeys import GridWorldWithKeys, EPSILON, RIGHT
 from solvers.utils import dict_argmax, VisualizerMixin
 import numpy as np
 

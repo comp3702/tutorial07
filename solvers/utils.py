@@ -1,6 +1,6 @@
 from typing import Dict
 
-from envs.GridWorld import EXIT_STATE, ACTION_NAMES
+from envs.GridWorldWithKeys import EXIT_STATE, ACTION_NAMES
 
 
 def dict_argmax(dictionary: Dict):
@@ -13,8 +13,8 @@ class VisualizerMixin():
     def get_values_and_policy(self):
         data = []
         for state, value in self.state_values.items():
-            if state == EXIT_STATE:
-                continue
+            # if state == EXIT_STATE:
+            #     continue
             desc = ''
             if state.position() in state.key_state:
                 desc = '\nKey'

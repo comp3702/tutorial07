@@ -1,8 +1,15 @@
 from typing import Optional, Dict, Tuple, List
 
-from envs.GridWorld import UP, DOWN, LEFT, RIGHT
 from envs.GridWorldState import GridWorldState
 
+UP = 0
+DOWN = 1
+LEFT = 2
+RIGHT = 3
+
+ACTION_NAMES = {UP: '↑', DOWN: '↓', LEFT: '←', RIGHT: '→'}
+
+EPSILON = 0.0001
 EXIT_STATE = GridWorldState(-1, -1, tuple())
 
 
@@ -37,7 +44,7 @@ class GridWorldWithKeys():
         states = list(GridWorldState(x, y, k) for y in range(y_size) for x in range(x_size) for k in key_states if
                       (x, y) not in obstacles)
         states.append(EXIT_STATE)
-        self.states = tuple(states)
+        self.states: Tuple[GridWorldState, ...] = tuple(states)
 
         self.obstacles = obstacles
 

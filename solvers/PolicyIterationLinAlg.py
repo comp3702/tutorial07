@@ -17,18 +17,18 @@ class PolicyIterationLinAlg(PolicyIteration):
                 # hazard state always leads to exit
                 if state.position() in self.env.hazards.keys():
                     exit_state_index = self.env.states.index(EXIT_STATE)
-                    t_model[state_index][action_index][exit_state_index] = 1.0
+                    t_model[state_index, action_index, exit_state_index] = 1.0
                     r_model[state_index] = self.env.hazards[state.position()]
                 elif not state.key_state and state.position() in self.env.goal.keys():
                     exit_state_index = self.env.states.index(EXIT_STATE)
-                    t_model[state_index][action_index][exit_state_index] = 1.0
+                    t_model[state_index, action_index, exit_state_index] = 1.0
                     r_model[state_index] = self.env.goal[state.position()]
                 elif state == EXIT_STATE:
-                    t_model[state_index][action_index][self.env.states.index(EXIT_STATE)] = 1.0
+                    t_model[state_index, action_index, self.env.states.index(EXIT_STATE)] = 1.0
                 else:
                     for probability, next_state, reward in self.env.get_transition_outcomes(state, action):
                         next_state_index = self.env.states.index(next_state)
-                        t_model[state_index][action_index][next_state_index] += probability
+                        t_model[state_index, action_index, next_state_index] += probability
 
         self.t_model = t_model
         self.r_model = r_model

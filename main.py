@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 MAX_ITER = 100
 
 
-def run_solver(env: GridWorldWithKeys, solver):
+def run_solver(solver):
     print("Initial values:")
     solver.print_values()
     print()
@@ -68,6 +68,9 @@ if __name__ == "__main__":
     if args.difficulty == 2:
         print('Bigger grid with multiple hazards')
         env = GridWorldWithKeys(x_size=10, y_size=6, keys=((9, 5),), hazards={(3, 1): -100, (6, 3): -100})
+    elif args.difficulty == 3:
+        print('Bigger grid with multiple hazards and keys')
+        env = GridWorldWithKeys(x_size=10, y_size=6, keys=((9, 5), (6, 4)), hazards={(3, 1): -100, (6, 3): -100})
     elif args.difficulty == 1:
         print('Small grid with a key')
         env = GridWorldWithKeys()
@@ -84,7 +87,7 @@ if __name__ == "__main__":
     else:
         raise Exception(f'Invalid policy: {args.solver}')
 
-    iter_count = run_solver(env, solver)
+    iter_count = run_solver(solver)
 
     end = time.time()
     print("Time to complete", iter_count, " iterations")

@@ -1,6 +1,8 @@
+import itertools
 from typing import Optional, Dict, Tuple, List
 
 from envs.GridWorldState import GridWorldState
+import numpy as np
 
 UP = 0
 DOWN = 1
@@ -37,9 +39,9 @@ class GridWorldWithKeys():
         else:
             self.hazards = hazards
 
-        key_states = [tuple()]
-        for key in keys:
-            key_states.append(key_states[len(key_states) - 1] + (key,))
+        key_states = []
+        for n in range(len(keys) + 1):
+            key_states += list(itertools.combinations(keys, n))
 
         states = list(GridWorldState(x, y, k) for y in range(y_size) for x in range(x_size) for k in key_states if
                       (x, y) not in obstacles)
